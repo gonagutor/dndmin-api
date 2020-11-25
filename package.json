@@ -1,0 +1,22 @@
+{
+  "name": "dndmin-api",
+  "version": "0.0.1",
+  "description": "This is the API of the DnDmin app. THis is an API for Dungeons and Dragons 5e.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gonagutor/dndmin-api.git"
+  },
+  "author": "gonagutor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gonagutor/dndmin-api/issues"
+  },
+  "homepage": "https://github.com/gonagutor/dndmin-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
