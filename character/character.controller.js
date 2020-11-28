@@ -1,5 +1,8 @@
 // character.controller.js
 
+var User = require("../auth/auth.model");
+var Character = require("../character/character.model");
+var errorMessages = require("../utilities/errorMessages");
 var Character = require("./character.model");
 /* 
   TODO: Implement a validation system for users before creating a character
@@ -67,16 +70,40 @@ exports.viewOwner = function (req, res) {
   );
 };
 
+// I swear I wanted to but I don't know (YET) how to divide this in smaller functions as they are async (or kind of)
+
 exports.delete = function (req, res) {
-  Character.deleteOne({ _id: req.params.character_id }, function (err) {
-    if (err)
-      res.json({
-        status: "error",
-        data: err,
-      });
-    res.json({
-      status: "success",
-      data: "Character deleted",
+  if (req.body.token != null) {
+    User.findOne({ token: req.body.token }, function (err, user) {
+      if (err) errorMessages.databaseError(err);
+      if (user == null) {
+        errorMessages.invalidToken();
+      } else {
+        if (user.authorization >= 1) {
+          Character.findById(
+            req.params.character_id,
+            function (err, character) {
+              if (err) errorMessages.databaseError(err);
+              if (character == null) {
+                errorMessages.characterDoesNotExist();
+              } else {
+                if (character.owner == user.username) {
+                  Character.deleteOne(
+                    { _id: req.params.character_id },
+                    function (err) {
+                      if (err) errorMessages.databaseError(err);
+                      res.json({
+                        status: "success",
+                        data: "Character deleted",
+                      });
+                    }
+                  );
+                } else errorMessages.wrongOwnership();
+              }
+            }
+          );
+        } else errorMessages.wrongAuthority();
+      }
     });
-  });
+  } else errorMessages.wrongRequest();
 };

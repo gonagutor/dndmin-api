@@ -10,24 +10,23 @@ router.get("/", function (req, res) {
 
 // User logistics
 router.route("/user/get-token/:user")
-    .get(authController.getToken);
+  .get(authController.getToken);
 router.route("/user/register/")
-    .post(authController.register);
+  .post(authController.register);
 router.route("/user/characters/:owner_name")
-    .get(characterController.index);
-//.post(characterController.new);
+  .get(characterController.index);
+    //.post(characterController.new);
 
 // Index all if not identified by Owner or ID
 router.route("/character")
-    .get(characterController.index);
-//.post(characterController.new);
-router
-  .route("/character/id")
-  .get(characterController.index)
-  .post(characterController.new);
+  .get(characterController.index);
+  //.post(characterController.new);
+router.route("/character/id")
+  .get(characterController.index);
 
 // Find by ID
 router.route("/character/id/:character_id")
-    .get(characterController.viewId);
+  .get(characterController.viewId)
+  .delete(characterController.delete);
 
 module.exports = router;
