@@ -12,8 +12,7 @@ var Character = require("./character.model");
 
 exports.index = function (req, res) {
   Character.get(function (err, character) {
-    if (err)
-      errorMessages.databaseError(err);
+    if (err) errorMessages.databaseError(err);
     res.json({
       status: "success",
       data: character,
@@ -24,8 +23,7 @@ exports.index = function (req, res) {
 exports.new = function (req, res) {
   let character = new Character();
   character.save(function (err) {
-    if (err)
-      errorMessages.databaseError(err);
+    if (err) errorMessages.databaseError(err);
     res.json({
       status: "success",
       data: character,
@@ -35,8 +33,7 @@ exports.new = function (req, res) {
 
 exports.viewId = function (req, res) {
   Character.findById(req.params.character_id, function (err, character) {
-    if (err)
-      errorMessages.databaseError(err);
+    if (err) errorMessages.databaseError(err);
     res.json({
       status: "success",
       data: character,
@@ -48,8 +45,7 @@ exports.viewOwner = function (req, res) {
   Character.findOne(
     { owner: req.params.owner_name },
     function (err, character) {
-      if (err)
-        errorMessages.databaseError(err);
+      if (err) errorMessages.databaseError(err);
       res.json({
         status: "success",
         data: character,
