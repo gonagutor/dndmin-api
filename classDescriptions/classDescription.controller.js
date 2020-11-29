@@ -4,7 +4,7 @@ var errorMessages = require("../utilities/errorMessages");
 
 exports.index = function (req, res) {
   ClassDescription.get(function (err, classDescriptions) {
-    if (err) errorMessages.databaseError(err);
+    if (err) errorMessages.databaseError(res, err);
     res.json({
       status: "success",
       data: classDescriptions,
@@ -16,7 +16,7 @@ exports.find = function (req, res) {
   ClassDescription.findOne(
     { class: req.params.class_name },
     function (err, classDescription) {
-      if (err) errorMessages.databaseError(err);
+      if (err) errorMessages.databaseError(res, err);
       res.json({
         status: "success",
         data: classDescription,
@@ -32,18 +32,18 @@ exports.delete = function (req, res) {
         if (user != null) {
           if (user.authorization >= 3) {
             ClassDescription.findOneAndDelete({ class: req.params.class_name }, function (err, classDescription) {
-                if (err) errorMessages.databaseError(err);
+                if (err) errorMessages.databaseError(res, err);
                 res.json({
                   status: "success",
                   data: "Class description succesfully deleted",
                 });
               },
             );
-          } else errorMessages.wrongAuthority();
-        } else errorMessages.invalidToken();
-      } else errorMessages.databaseError(err);
+          } else errorMessages.wrongAuthority(res);
+        } else errorMessages.invalidToken(res);
+      } else errorMessages.databaseError(res, err);
     });
-  } else errorMessages.wrongRequest();
+  } else errorMessages.wrongRequest(res);
 };
 
 exports.new = function (req, res) {
@@ -56,16 +56,16 @@ exports.new = function (req, res) {
         if (user != null) {
           if (user.authorization >= 3) {
             newClassDescription.save(function (err, newClassDescription) {
-                if (err) errorMessages.databaseError(err);
+                if (err) errorMessages.databaseError(res, err);
                 res.json({
                   status: "success",
                   data: newClassDescription,
                 });
               },
             );
-          } else errorMessages.wrongAuthority();
-        } else errorMessages.invalidToken();
-      } else errorMessages.databaseError(err);
+          } else errorMessages.wrongAuthority(res);
+        } else errorMessages.invalidToken(res);
+      } else errorMessages.databaseError(res, err);
     });
-  } else errorMessages.wrongRequest();
+  } else errorMessages.wrongRequest(res);
 };

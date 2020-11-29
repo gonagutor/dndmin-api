@@ -15,20 +15,21 @@ router.route("/user/get-token/:user")
 router.route("/user/register/")
   .post(authController.register);
 router.route("/user/characters/:owner_name")
-  .get(characterController.index);
-    //.post(characterController.new);
+  .get(characterController.index)
+  .post(characterController.new);
 
 // Index all characters if not identified by Owner or ID
 router.route("/character")
-  .get(characterController.index);
-  //.post(characterController.new);
+  .get(characterController.index)
+  .post(characterController.new);
 router.route("/character/id")
-  .get(characterController.index);
+  .get(characterController.index)
+  .post(characterController.new);
 
 // Find by ID
 router.route("/character/id/:character_id")
   .get(characterController.viewId)
-  .delete(characterController.delete);z
+  .delete(characterController.delete);
 
 
 // Index all class helpers if not identified by class

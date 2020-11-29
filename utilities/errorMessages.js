@@ -1,41 +1,41 @@
 // errorMessages.js
 
-exports.databaseError = function(err){
+exports.databaseError = function(res, err){
   res.json({
     status: "error",
     data: err,
   });
 };
 
-exports.invalidToken = function () {
+exports.invalidToken = function (res) {
   res.json({
     status: "error",
     data: "Your token is invalid",
   });
 }
 
-exports.characterDoesNotExist = function () {
+exports.characterDoesNotExist = function (res) {
   res.json({
     status: "error",
     data: "That character does not exist"
   });
 }
 
-exports.wrongOwnership = function () {
+exports.wrongOwnership = function (res) {
   res.json({
     status: "error",
     data: "This is not your character",
   });
 }
 
-exports.wrongAuthority = function () {
+exports.wrongAuthority = function (res) {
   res.json({
     status: "error",
     data: "You are not allowed to do that",
   });
 }
 
-exports.wrongRequest = function () {
+exports.wrongRequest = function (res) {
   res.json({
     status: "error",
     data: "Wrong request",

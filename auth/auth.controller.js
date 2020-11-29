@@ -31,7 +31,7 @@ exports.register = function (req, res) {
   newUser.verified = 0;
   newUser.save(function (err, user) {
     if (err)
-      errorMessages.databaseError(err);
+      errorMessages.databaseError(res, err);
     res.json({
       status: "success",
       data: "New user created",
@@ -41,12 +41,12 @@ exports.register = function (req, res) {
 
 exports.getToken = function (req, res) {
   if (req.body.password == null) {
-    errorMessages.wrongRequest();
+    errorMessages.wrongRequest(res);
     return;
   }
   User.findOne({ username: req.params.user }, function (err, user) {
     if (err)
-      errorMessages.databaseError(err);
+      errorMessages.databaseError(res, err);
     else if ( // Verify password
       req.body.password != null &&
       crypto
@@ -61,7 +61,7 @@ exports.getToken = function (req, res) {
           .digest("hex");
         user.save(function (err) {
           if (err)
-            errorMessages.databaseError(err);
+            errorMessages.databaseError(res, err);
         });
       }
       res.json({
@@ -69,7 +69,7 @@ exports.getToken = function (req, res) {
         data: user.token,
       });
     } else {
-      errorMessages.wrongAuthority();
+      errorMessages.wrongAuthority(res);
     }
   });
 };
