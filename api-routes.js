@@ -10,12 +10,12 @@ router.get("/", function (req, res) {
 });
 
 // User logistics
-router.route("/user/get-token/:user")
+router.route("/user/get-token/")
   .get(authController.getToken);
 router.route("/user/register/")
   .post(authController.register);
 router.route("/user/characters/:owner_name")
-  .get(characterController.index)
+  .get(characterController.viewOwner)
   .post(characterController.new);
 
 // Index all characters if not identified by Owner or ID
@@ -25,12 +25,17 @@ router.route("/characters")
 router.route("/characters/id")
   .get(characterController.index)
   .post(characterController.new);
+router.route("/characters/owner")
+  .get(characterController.index)
+  .post(characterController.new);
 
 // Find by ID
 router.route("/characters/id/:character_id")
   .get(characterController.viewId)
   .delete(characterController.delete);
-
+// Find by Owner
+router.route("/characters/owner/:owner_name")
+  .get(characterController.viewOwner);
 
 // Index all class helpers if not identified by class
 router.route("/helpers/class/")

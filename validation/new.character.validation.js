@@ -143,7 +143,6 @@ exports.newCharacterValidation = function (req, res) {
       .required(),
   });
   const base = Joi.object({
-    token: Joi.string().required(),
     name: Joi.string().required().max(16).min(3),
     subname: Joi.string(),
     photo: Joi.string(),

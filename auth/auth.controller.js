@@ -25,8 +25,7 @@ exports.auth = function (req, res, minLevelAuth, callback) {
     User.findOne({ username: verifiedToken.username }, function (err, user) {
       if (err) return errorMessages.databaseError(res, err);
       if (!user) return errorMessages.invalidToken(res);
-      req.user = user;
-      callback(req, res);
+      callback(req, res, user);
     });
   } catch (err) {
     errorMessages.invalidToken(res);
@@ -71,9 +70,8 @@ exports.register = function (req, res) {
  */
 
 exports.getToken = function (req, res) {
-  if (!req.body.password || !req.body.user)
-    return errorMessages.wrongRequest(res);
-  User.findOne({ username: req.params.user }, function (err, user) {
+  if (!req.body.password || !req.body.user) return errorMessages.wrongRequest(res);
+  User.findOne({ username: req.body.user }, function (err, user) {
     const suposedPassword = crypto
       .createHash("sha512")
       .update(process.env.SALT + req.body.password)
@@ -81,12 +79,12 @@ exports.getToken = function (req, res) {
     if (err) return errorMessages.databaseError(res, err);
     if (suposedPassword != user.password) errorMessages.wrongPassword(res); // Verify password
     const signedToken = jwt.sign({
-      username: username,
+      username: user.username,
       authorization: user.authorization
     }, process.env.TOKEN_SECRET);
     res.header('token', signedToken).json({
       status: "success",
-      data: verifiedToken,
+      data: signedToken,
     });
   });
 };
