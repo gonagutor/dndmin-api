@@ -33,14 +33,15 @@ var characterSchema = mongoose.Schema(
       name: String,
       url: String,
     },
-    class: [
-      {
-        name: String,
-        url: String,
-      },
-    ],
     level: {
       level: Number,
+      class: [
+        {
+          level: Number,
+          name: String,
+          url: String,
+        },
+      ],
       px: Number,
       pxNextLevel: Number,
     },
