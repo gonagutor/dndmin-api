@@ -17,6 +17,9 @@ console.log(!db ? "Error connecting db" : "Db connected successfully");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.get('*', function(req, res) {  
+  res.redirect('https://' + req.headers.host + req.url);
+})
 app.use("/", apiRoutes);
 app.listen(port, function () {
   console.log("DnDmin API now running on port: " + port);
