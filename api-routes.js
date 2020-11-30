@@ -19,15 +19,15 @@ router.route("/user/characters/:owner_name")
   .post(characterController.new);
 
 // Index all characters if not identified by Owner or ID
-router.route("/character")
+router.route("/characters")
   .get(characterController.index)
   .post(characterController.new);
-router.route("/character/id")
+router.route("/characters/id")
   .get(characterController.index)
   .post(characterController.new);
 
 // Find by ID
-router.route("/character/id/:character_id")
+router.route("/characters/id/:character_id")
   .get(characterController.viewId)
   .delete(characterController.delete);
 
