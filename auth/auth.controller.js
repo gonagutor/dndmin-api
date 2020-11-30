@@ -7,19 +7,38 @@ var crypto = require("crypto");
 var jwt = require("jsonwebtoken");
 dotenv.config();
 
-exports.auth = function (req, res, callback) {
+/**
+ * Checks user identity and Authorizes them to perform the callback
+ *
+ * @param {Object} req Express.js request object
+ * @param {Object} res Express.js response object
+ * @param {Number} minLevelAuth Minimum authority to perform the action on callback
+ * @param {Function} callback What to do when the user is athorised
+ */
+
+exports.auth = function (req, res, minLevelAuth, callback) {
   const token = req.header('token');
-  if (!token) return res.status(401).json({
-    status: "error",
-    data: "Your token is not set",
-  });
+  if (!token) return errorMessages.missingToken(res);
   try {
     const verifiedToken = jwt.verify(token, process.env.TOKEN_SECRET);
-    req.user = verifiedToken;
+    if (verifiedToken.authorization < minLevelAuth) return errorMessages.wrongAuthority(res);
+    User.findOne({ username: verifiedToken.username }, function (err, user) {
+      if (err) return errorMessages.databaseError(res, err);
+      if (!user) return errorMessages.invalidToken(res);
+      req.user = user;
+      callback(req, res);
+    });
   } catch (err) {
     errorMessages.invalidToken(res);
   }
 }
+
+/**
+ * Registers a new user
+ *
+ * @param {Object} req Express.js request object
+ * @param {Object} res Express.js response object
+ */
 
 exports.register = function (req, res) {
   var newUser = new User();
@@ -44,6 +63,13 @@ exports.register = function (req, res) {
   });
 };
 
+/**
+ * Sets user's header with their token using jwt and sends the token using json
+ *
+ * @param {Object} req Express.js request object
+ * @param {Object} res Express.js response object
+ */
+
 exports.getToken = function (req, res) {
   if (!req.body.password || !req.body.user)
     return errorMessages.wrongRequest(res);
@@ -53,7 +79,7 @@ exports.getToken = function (req, res) {
       .update(process.env.SALT + req.body.password)
       .digest("hex");
     if (err) return errorMessages.databaseError(res, err);
-    if (suposedPassword != user.password) errorMessages.wrongAuthority(res); // Verify password
+    if (suposedPassword != user.password) errorMessages.wrongPassword(res); // Verify password
     const signedToken = jwt.sign({
       username: username,
       authorization: user.authorization
