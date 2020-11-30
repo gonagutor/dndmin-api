@@ -19,7 +19,8 @@ exports.index = function (req, res) {
 
 exports.new = function (req, res) {
   auth(req, res, 1, function (req, res, user) {
-    if (newCharacterValidation(req, res)) return errorMessages.invalidToken(res);
+    if (newCharacterValidation(req, res))
+      return errorMessages.invalidToken(res);
     var newCharacter = new Character();
     newCharacter.name = req.body.name;
     newCharacter.subname = req.body.subname;
@@ -57,7 +58,9 @@ exports.viewId = function (req, res) {
 };
 
 exports.viewOwner = function (req, res) {
-  Character.findOne({ owner: req.params.owner_name }, function (err, character) {
+  Character.findOne(
+    { owner: req.params.owner_name },
+    function (err, character) {
       if (err) errorMessages.databaseError(res, err);
       res.json({
         status: "success",
@@ -72,17 +75,15 @@ exports.delete = function (req, res) {
     Character.findById(req.params.character_id, function (err, character) {
       if (err) return errorMessages.databaseError(res, err);
       if (!character) return errorMessages.characterDoesNotExist(res);
-      if (character.owner != user.username) return errorMessages.wrongOwnership(res);
-      Character.deleteOne(
-        { _id: req.params.character_id },
-        function (err) {
-          if (err) errorMessages.databaseError(res, err);
-          res.json({
-            status: "success",
-            data: "Character deleted",
-          });
-        }
-      );
+      if (character.owner != user.username)
+        return errorMessages.wrongOwnership(res);
+      Character.deleteOne({ _id: req.params.character_id }, function (err) {
+        if (err) errorMessages.databaseError(res, err);
+        res.json({
+          status: "success",
+          data: "Character deleted",
+        });
+      });
     });
   });
 };
