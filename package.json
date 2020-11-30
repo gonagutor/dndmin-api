@@ -4,6 +4,7 @@
   "description": "This is the API of the DnDmin app. THis is an API for Dungeons and Dragons 5e.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
