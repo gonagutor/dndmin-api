@@ -26,6 +26,7 @@ exports.index = function (res, req) {
 exports.delete = function (req, res) {
   auth(req, res, 3, function (req, res) {
     Classes.findOneAndDelete({ index: req.params.class }, function (err) {
+      if (err) return errorMessages.databaseError(res, err);
       if (!classes) return errorMessages.doesNotExist(res, "class");
       res.json({
         status: "success",
@@ -37,6 +38,7 @@ exports.delete = function (req, res) {
 
 exports.find = function (req, res) {
   Classes.findOne({ index: req.params.class }, function (err, classes) {
+    if (err) return errorMessages.databaseError(res, err);
     if (!classes) return errorMessages.doesNotExist(res, "class");
     res.json({
       status: "success",
