@@ -1,5 +1,14 @@
 const Joi = require("joi");
 
+/**
+ * This function takes a req, and a res and validates the input json
+ * of the request body.
+ * Prints an error as Json if the request is invalid.
+ *
+ * @param {*} req Express.js request variable
+ * @param {*} res Express.js response variable
+ */
+
 exports.newCharacterValidation = function (req, res) {
   const redirectSchema = Joi.object().keys({
     name: Joi.string().required(),

@@ -28,10 +28,10 @@ exports.wrongPassword = function (res) {
   });
 };
 
-exports.characterDoesNotExist = function (res) {
+exports.doesNotExist = function (res, whatStr) {
   res.status(404).json({
     status: "error",
-    data: "That character does not exist",
+    data: "That " + whatStr + " does not exist",
   });
 };
 

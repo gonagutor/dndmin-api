@@ -88,7 +88,7 @@ exports.delete = function (req, res) {
   auth(req, res, 1, function (req, res, user) {
     Character.findById(req.params.character_id, function (err, character) {
       if (err) return errorMessages.databaseError(res, err);
-      if (!character) return errorMessages.characterDoesNotExist(res);
+      if (!character) return errorMessages.doesNotExist(res, "character");
       if (character.owner != user.username)
         return errorMessages.wrongOwnership(res);
       Character.deleteOne({ _id: req.params.character_id }, function (err) {
