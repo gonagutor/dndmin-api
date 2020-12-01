@@ -2,8 +2,8 @@
 
 let router = require("express").Router();
 var characterController = require("./character/character.controller");
+var classesController = require("./class/classes.controller");
 var authController = require("./auth/auth.controller");
-var classDescriptionController = require("./classDescriptions/classDescription.controller");
 
 router.get("/", function (req, res) {
   res.send("DnDmin API REST API Landing Page");
@@ -41,16 +41,15 @@ router
   .route("/characters/owner/:owner_name")
   .get(characterController.viewOwner);
 
-// Index all class helpers if not identified by class
+//  Index Classes and create a new one
 router
-  .route("/helpers/class/")
-  .get(classDescriptionController.index)
-  .post(classDescriptionController.new);
+  .route("/classes/")
+  .get(classesController.index)
+  .post(classesController.new);
 
-// Find by class
 router
-  .route("/helpers/class/:class_name")
-  .get(classDescriptionController.find)
-  .delete(classDescriptionController.delete);
+  .route("classes/:class")
+  .get(classesController.find)
+  .delete(classesController.delete);
 
 module.exports = router;
