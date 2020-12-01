@@ -1,6 +1,5 @@
 // character.controller.js
 
-const User = require("../auth/auth.model");
 const Character = require("./character.model");
 const errorMessages = require("../utilities/errorMessages");
 const { auth } = require("../auth/auth.controller");
@@ -10,9 +9,18 @@ const newCharacterValidation = require("../validation/new.character.validation")
 exports.index = function (req, res) {
   Character.get(function (err, character) {
     if (err) errorMessages.databaseError(res, err);
+    var charlist = [];
+    for (var i = 0; i < character.length; i++) {
+      var obj = new Object();
+      obj.id = character[i]._id;
+      obj.owner = character[i].owner;
+      obj.name = character[i].name;
+      obj.url = "/characters/id/" + character[i]._id;
+      charlist.push(obj);
+    }
     res.json({
       status: "success",
-      data: character,
+      data: charlist,
     });
   });
 };
@@ -58,16 +66,22 @@ exports.viewId = function (req, res) {
 };
 
 exports.viewOwner = function (req, res) {
-  Character.findOne(
-    { owner: req.params.owner_name },
-    function (err, character) {
-      if (err) errorMessages.databaseError(res, err);
-      res.json({
-        status: "success",
-        data: character,
-      });
+  Character.find({ owner: req.params.owner_name }, function (err, character) {
+    if (err) errorMessages.databaseError(res, err);
+    var charlist = [];
+    for (var i = 0; i < character.length; i++) {
+      var obj = new Object();
+      obj.id = character[i]._id;
+      obj.owner = character[i].owner;
+      obj.name = character[i].name;
+      obj.url = "/characters/id/" + character[i]._id;
+      charlist.push(obj);
     }
-  );
+    res.json({
+      status: "success",
+      data: charlist,
+    });
+  });
 };
 
 exports.delete = function (req, res) {
