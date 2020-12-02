@@ -48,7 +48,7 @@ router
   .post(classesController.new);
 
 router
-  .route("classes/:class")
+  .route("/classes/:class")
   .get(classesController.find)
   .delete(classesController.delete);
 
