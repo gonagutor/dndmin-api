@@ -17,8 +17,8 @@ exports.newClassValidation = function (req, res) {
   });
 
   const items = Joi.object().keys({
-    equipment: Joi.array()
-      .items({
+    equipment: Joi.object()
+      .keys({
         index: Joi.string().regex(RegExp("^([a-z0-9-])+$")).required(),
         name: Joi.string().required(),
         type: Joi.string().allow("item", "other").required(),
@@ -29,8 +29,8 @@ exports.newClassValidation = function (req, res) {
   });
 
   const proficiencies = Joi.object().keys({
-    options: Joi.array()
-      .items({
+    options: Joi.object()
+      .keys({
         amount: Joi.number().min(1).required(),
         from: Joi.array().items(redirect).required(),
       })
@@ -43,25 +43,21 @@ exports.newClassValidation = function (req, res) {
     mandatory: Joi.array().items(items).required(),
     options: Joi.array()
       .items({
-        choose: Joi.number().min(2).required(),
-        from: Joi.array()
-          .items({
-            equipment: Joi.array().items(items).required(),
-          })
-          .required(),
+        choose: Joi.number().min(1).required(),
+        from: Joi.array().items(items).required(),
       })
       .required(),
   });
 
   const classLevels = Joi.object().keys({
     index: Joi.string().regex(RegExp("^([a-z0-9-])+$")).required(),
-    class: Joi.string().required(),
+    name: Joi.string().required(),
     url: Joi.string(),
   });
 
   const subClasses = Joi.object().keys({
     index: Joi.string().regex(RegExp("^([a-z0-9-])+$")).required(),
-    class: Joi.string().required(),
+    name: Joi.string().required(),
     url: Joi.string(),
   });
 

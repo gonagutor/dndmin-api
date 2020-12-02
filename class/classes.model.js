@@ -1,6 +1,12 @@
 // class.model.js
 
 var mongoose = require("mongoose");
+var equipmentSchema = mongoose.Schema({
+  index: String,
+  type: String,
+  name: String,
+  url: String,
+});
 var classesSchema = mongoose.Schema({
   index: String,
   class: String,
@@ -35,12 +41,7 @@ var classesSchema = mongoose.Schema({
   startingEquipment: {
     mandatory: [
       {
-        equipment: {
-          index: String,
-          type: String,
-          name: String,
-          url: String,
-        },
+        equipment: [equipmentSchema],
         quantity: Number,
       },
     ],
@@ -49,12 +50,7 @@ var classesSchema = mongoose.Schema({
         choose: Number,
         from: [
           {
-            equipment: {
-              index: String,
-              type: String,
-              name: String,
-              url: String,
-            },
+            equipment: [equipmentSchema],
             quantity: Number,
           },
         ],
@@ -66,7 +62,7 @@ var classesSchema = mongoose.Schema({
     name: String,
     url: String,
   },
-  subclasses: [
+  subClasses: [
     {
       index: String,
       name: String,

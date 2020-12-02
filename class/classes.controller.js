@@ -5,7 +5,7 @@ const { auth } = require("../auth/auth.controller");
 const Classes = require("./classes.model");
 const { newClassValidation } = require("../validation/new.class.validation");
 
-exports.index = function (res, req) {
+exports.index = function (req, res) {
   Classes.get(function (err, classes) {
     if (err) errorMessages.databaseError(err);
     var classesList = [];
@@ -48,20 +48,24 @@ exports.find = function (req, res) {
 };
 
 exports.new = function (req, res) {
-  auth(req, res, 3, function (res, req) {
+  auth(req, res, 3, function (req, res, user) {
     // TODO: Add the url to each redirect by using the index
     if (newClassValidation(req, res)) return;
     var classes = new Classes();
-    classes.index = res.body.index;
-    classes.class = res.body.class;
-    classes.description = res.body.description;
-    classes.hitDice = res.body.hitDice;
-    classes.proficiencies = res.body.proficiencies;
-    classes.startingEquipment = res.body.startingEquipment;
-    classes.classLevels = res.body.classLevels;
-    classes.subClasses = res.body.subClasses;
-    classes.save(err, function (err) {
-      if (err) errorMessages.databaseError(res, err);
+    classes.index = req.body.index;
+    classes.class = req.body.class;
+    classes.description = req.body.description;
+    classes.hitDice = req.body.hitDice;
+    classes.proficiencies = req.body.proficiencies;
+    classes.startingEquipment = req.body.startingEquipment;
+    classes.classLevels = req.body.classLevels;
+    classes.subClasses = req.body.subClasses;
+    classes.save(function (err) {
+      if (err) return errorMessages.databaseError(res, err);
+      res.json({
+        status: "success",
+        data: "Class added successfully",
+      });
     });
   });
 };
