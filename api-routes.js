@@ -4,6 +4,7 @@ let router = require("express").Router();
 var characterController = require("./character/character.controller");
 var classesController = require("./class/classes.controller");
 var authController = require("./auth/auth.controller");
+var equipmentController = require("./equipment/equipment.controller");
 
 router.get("/", function (req, res) {
   res.send("DnDmin API REST API Landing Page");
@@ -52,4 +53,7 @@ router
   .get(classesController.find)
   .delete(classesController.delete);
 
+router.route("/equipment/").get(equipmentController.index);
+
+router.route("/equipment/:index").delete(equipmentController.delete);
 module.exports = router;
