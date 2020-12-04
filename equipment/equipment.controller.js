@@ -24,19 +24,24 @@ exports.index = function (req, res) {
 
 exports.delete = function (req, res) {
   auth(req, res, 3, function (req, res, user) {
-    Equipment.findOneAndDelete({ index: req.params.index }, function (err) {
-      if (err) return errorMessages.databaseError(res, err);
-      res.json({
-        status: "success",
-        data: "Item deleted successfully",
-      });
-    });
+    Equipment.findOneAndDelete(
+      { index: req.params.index },
+      function (err, item) {
+        if (err) return errorMessages.databaseError(res, err);
+        if (!item) return errorMessages.doesNotExist(res, "item");
+        res.json({
+          status: "success",
+          data: "Item deleted successfully",
+        });
+      }
+    );
   });
 };
 
 exports.view = function (req, res) {
-  Equipment.findOne({ index: req.params.index }, function (err, equipment) {
+  Equipment.findOne({ index: req.params.index }, function (err, item) {
     if (err) return errorMessages.databaseError(res, err);
+    if (!item) return errorMessages.doesNotExist(res, "item");
     res.json({
       status: "success",
       data: equipment,

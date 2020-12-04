@@ -55,5 +55,8 @@ router
 
 router.route("/equipment/").get(equipmentController.index);
 
-router.route("/equipment/:index").delete(equipmentController.delete);
+router
+  .route("/equipment/:index")
+  .get(equipmentController.view)
+  .delete(equipmentController.delete);
 module.exports = router;
