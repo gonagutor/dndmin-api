@@ -6,6 +6,7 @@ const { auth } = require("../auth/auth.controller");
 const {
   newEquipmentValidation,
 } = require("../validation/new.equipment.validation");
+const { checkDuplicateByIndex } = require("../utilities/checkDuplicate");
 
 exports.index = function (req, res) {
   Equipment.get(function (err, equipment) {
@@ -55,21 +56,29 @@ exports.view = function (req, res) {
 exports.new = function (req, res) {
   auth(req, res, 3, function (req, res, user) {
     if (newEquipmentValidation(req, res)) return;
-    var equipment = new Equipment();
-    equipment.index = req.body.index;
-    equipment.name = req.body.name;
-    equipment.category = req.body.category;
-    equipment.type = req.body.type;
-    if (req.body.weight) equipment.weight = req.body.weight;
-    if (req.body.description) equipment.description = req.body.description;
-    if (req.body.cost) equipment.cost = req.body.cost;
-    if (req.body.contents) equipment.contents = req.body.contents;
-    equipment.save(function (err) {
-      if (err) return errorMessages.databaseError(res, err);
-      res.json({
-        status: "success",
-        data: "Successfully added new item",
-      });
-    });
+    checkDuplicateByIndex(
+      req,
+      res,
+      req.body.index,
+      Equipment,
+      function (req, res) {
+        var equipment = new Equipment();
+        equipment.index = req.body.index;
+        equipment.name = req.body.name;
+        equipment.category = req.body.category;
+        equipment.type = req.body.type;
+        if (req.body.weight) equipment.weight = req.body.weight;
+        if (req.body.description) equipment.description = req.body.description;
+        if (req.body.cost) equipment.cost = req.body.cost;
+        if (req.body.contents) equipment.contents = req.body.contents;
+        equipment.save(function (err) {
+          if (err) return errorMessages.databaseError(res, err);
+          res.json({
+            status: "success",
+            data: "Successfully added new item",
+          });
+        });
+      }
+    );
   });
 };

@@ -55,3 +55,10 @@ exports.wrongRequest = function (res) {
     data: "Wrong request",
   });
 };
+
+exports.duplicateKey = function (res, key) {
+  res.status(400).json({
+    status: "error",
+    data: "Can't add key " + key + " as it already exists",
+  });
+};
