@@ -3,6 +3,9 @@
 const Equipment = require("./equipment.model");
 const errorMessages = require("../utilities/errorMessages");
 const { auth } = require("../auth/auth.controller");
+const {
+  newEquipmentValidation,
+} = require("../validation/new.equipment.validation");
 
 exports.index = function (req, res) {
   Equipment.get(function (err, equipment) {
@@ -12,7 +15,7 @@ exports.index = function (req, res) {
       var obj = new Object();
       obj.index = equipment[i].index;
       obj.name = equipment[i].name;
-      obj.url = "/equipment/" + equipment[i].url;
+      obj.url = "/equipment/" + equipment[i].index;
       eqlist.push(obj);
     }
     res.json({
@@ -44,7 +47,29 @@ exports.view = function (req, res) {
     if (!item) return errorMessages.doesNotExist(res, "item");
     res.json({
       status: "success",
-      data: equipment,
+      data: item,
+    });
+  });
+};
+
+exports.new = function (req, res) {
+  auth(req, res, 3, function (req, res, user) {
+    if (newEquipmentValidation(req, res)) return;
+    var equipment = new Equipment();
+    equipment.index = req.body.index;
+    equipment.name = req.body.name;
+    equipment.category = req.body.category;
+    equipment.type = req.body.type;
+    if (req.body.weight) equipment.weight = req.body.weight;
+    if (req.body.description) equipment.description = req.body.description;
+    if (req.body.cost) equipment.cost = req.body.cost;
+    if (req.body.contents) equipment.contents = req.body.contents;
+    equipment.save(function (err) {
+      if (err) return errorMessages.databaseError(res, err);
+      res.json({
+        status: "success",
+        data: "Successfully added new item",
+      });
     });
   });
 };

@@ -53,7 +53,10 @@ router
   .get(classesController.find)
   .delete(classesController.delete);
 
-router.route("/equipment/").get(equipmentController.index);
+router
+  .route("/equipment/")
+  .get(equipmentController.index)
+  .post(equipmentController.new);
 
 router
   .route("/equipment/:index")
