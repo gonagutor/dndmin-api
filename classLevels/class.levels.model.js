@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const classLevelsSchema = mongoose.Schema({
-  index: String,
   level: Number,
   ownerClass: String,
   abilityScoreBonuses: Number,
