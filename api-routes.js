@@ -5,6 +5,7 @@ var characterController = require("./character/character.controller");
 var classesController = require("./class/classes.controller");
 var authController = require("./auth/auth.controller");
 var equipmentController = require("./equipment/equipment.controller");
+const classLevelsController = require("./classLevels/class.levels.controller");
 
 router.get("/", function (req, res) {
   res.send("DnDmin API REST API Landing Page");
@@ -52,6 +53,12 @@ router
   .route("/classes/:class")
   .get(classesController.find)
   .delete(classesController.delete);
+
+router.route("/classes/:class/levels").get(classLevelsController.indexClass);
+
+router
+  .route("/classes/:class/levels/:level")
+  .get(classLevelsController.viewLevel);
 
 router
   .route("/equipment/")
