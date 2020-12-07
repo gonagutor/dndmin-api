@@ -6,7 +6,8 @@ exports.indexClass = function (req, res) {
     { ownerClass: req.params.class },
     function (err, classLevels) {
       if (err) return errorMessages.databaseError(res, err);
-      if (!classLevel) return errorMessages.doesNotExist(res, "Class");
+      if (!classLevels || classLevels.length == 0)
+        return errorMessages.doesNotExist(res, "Class");
       res.json({ status: "success", data: classLevels });
     }
   );
