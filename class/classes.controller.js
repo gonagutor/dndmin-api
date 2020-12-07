@@ -8,7 +8,7 @@ const { checkDuplicateByIndex } = require("../utilities/checkDuplicate");
 
 exports.index = function (req, res) {
   Classes.get(function (err, classes) {
-    if (err) errorMessages.databaseError(err);
+    if (err) return errorMessages.databaseError(err);
     var classesList = [];
     for (var i = 0; i < classes.length; i++) {
       var obj = new Object();

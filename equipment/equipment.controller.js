@@ -10,7 +10,7 @@ const { checkDuplicateByIndex } = require("../utilities/checkDuplicate");
 
 exports.index = function (req, res) {
   Equipment.get(function (err, equipment) {
-    if (err) errorMessages.databaseError(res, err);
+    if (err) return errorMessages.databaseError(res, err);
     var eqlist = [];
     for (var i = 0; i < equipment.length; i++) {
       var obj = new Object();

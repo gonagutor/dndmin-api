@@ -57,7 +57,8 @@ exports.new = function (req, res) {
 
 exports.viewId = function (req, res) {
   Character.findById(req.params.character_id, function (err, character) {
-    if (err) errorMessages.databaseError(res, err);
+    if (err) return errorMessages.databaseError(res, err);
+    if (!character) return errorMessages.doesNotExist(res, "character");
     res.json({
       status: "success",
       data: character,
@@ -67,7 +68,8 @@ exports.viewId = function (req, res) {
 
 exports.viewOwner = function (req, res) {
   Character.find({ owner: req.params.owner_name }, function (err, character) {
-    if (err) errorMessages.databaseError(res, err);
+    if (err) return errorMessages.databaseError(res, err);
+    if (!character) return errorMessages.databaseError(res, "user");
     var charlist = [];
     for (var i = 0; i < character.length; i++) {
       var obj = new Object();
