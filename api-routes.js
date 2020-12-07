@@ -58,7 +58,8 @@ router.route("/classes/:class/levels").get(classLevelsController.indexClass);
 
 router
   .route("/classes/:class/levels/:level")
-  .get(classLevelsController.viewLevel);
+  .get(classLevelsController.viewLevel)
+  .delete(classLevelsController.deleteLevel);
 
 router
   .route("/equipment/")

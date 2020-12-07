@@ -1,5 +1,6 @@
 const ClassLevels = require("./class.levels.model");
 const errorMessages = require("../utilities/errorMessages");
+const { auth } = require("../auth/auth.controller");
 
 exports.indexClass = function (req, res) {
   ClassLevels.find(
@@ -25,12 +26,18 @@ exports.viewLevel = function (req, res) {
 };
 
 exports.deleteLevel = function (req, res) {
-  ClassLevels.findOneAndDelete(
-    { level: req.params.level, ownerClass: req.params.class },
-    function (err, classLevel) {
-      if (err) return errorMessages.databaseError(res, err);
-      if (!classLevel) return errorMessages.doesNotExist(res, "Class or Level");
-      res.json({ status: "success", data: "Class level deleted successfully" });
-    }
-  );
+  auth(req, res, 3, function (req, res, user) {
+    ClassLevels.findOneAndDelete(
+      { level: req.params.level, ownerClass: req.params.class },
+      function (err, classLevel) {
+        if (err) return errorMessages.databaseError(res, err);
+        if (!classLevel)
+          return errorMessages.doesNotExist(res, "Class or Level");
+        res.json({
+          status: "success",
+          data: "Class level deleted successfully",
+        });
+      }
+    );
+  });
 };
