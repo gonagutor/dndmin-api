@@ -84,7 +84,9 @@ exports.getToken = function (req, res) {
       .update(process.env.SALT + req.body.password)
       .digest("hex");
     if (err) return errorMessages.databaseError(res, err);
-    if (suposedPassword != user.password) errorMessages.wrongPassword(res); // Verify password
+    if (!user) return errorMessages.doesNotExist(res, "user");
+    if (suposedPassword != user.password)
+      return errorMessages.wrongPassword(res); // Verify password
     const signedToken = jwt.sign(
       {
         username: user.username,
