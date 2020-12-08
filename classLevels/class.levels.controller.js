@@ -25,6 +25,28 @@ exports.viewLevel = function (req, res) {
   );
 };
 
+exports.new = function (req, res) {
+  auth(req, res, 3, function (req, res, user) {
+    new classLevel = new ClassLevels();
+    classLevel.save(function (err) {
+      // TODO: Add input validation
+      classLevel.level = req.body.level;
+      classLevel.ownerClass = req.body.ownerClass;
+      classLevel.abilityScoreBonuses = req.body.abilityScoreBonuses;
+      classLevel.profBonus = req.body.profBonus;
+      classLevel.featureChoices = req.body.featureChoices;
+      classLevel.features = req.body.features;
+      classLevel.classSpecific = req.body.classSpecific;
+      classLevel.class = req.body.class;
+      if (err) errorMessages.databaseError(res, err);
+      res.json({
+        status: "success",
+        data: "Successfully added a new level to " + req.params.class,
+      });
+    })
+  });
+};
+
 exports.deleteLevel = function (req, res) {
   auth(req, res, 3, function (req, res, user) {
     ClassLevels.findOneAndDelete(
