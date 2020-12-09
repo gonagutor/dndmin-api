@@ -54,7 +54,10 @@ router
   .get(classesController.find)
   .delete(classesController.delete);
 
-router.route("/classes/:class/levels").get(classLevelsController.indexClass);
+router
+  .route("/classes/:class/levels")
+  .post(classLevelsController.new)
+  .get(classLevelsController.indexClass);
 
 router
   .route("/classes/:class/levels/:level")

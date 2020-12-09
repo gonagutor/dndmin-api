@@ -1,6 +1,9 @@
 const ClassLevels = require("./class.levels.model");
 const errorMessages = require("../utilities/errorMessages");
 const { auth } = require("../auth/auth.controller");
+const {
+  newClassLevelValidation,
+} = require("../validation/new.class.level.validation");
 
 exports.indexClass = function (req, res) {
   ClassLevels.find(
@@ -27,23 +30,23 @@ exports.viewLevel = function (req, res) {
 
 exports.new = function (req, res) {
   auth(req, res, 3, function (req, res, user) {
-    new classLevel = new ClassLevels();
+    if (newClassLevelValidation(req, res)) return;
+    var classLevel = new ClassLevels();
+    classLevel.level = req.body.level;
+    classLevel.ownerClass = req.params.class;
+    classLevel.abilityScoreBonuses = req.body.abilityScoreBonuses;
+    classLevel.profBonus = req.body.profBonus;
+    classLevel.featureChoices = req.body.featureChoices;
+    classLevel.features = req.body.features;
+    classLevel.classSpecific = req.body.classSpecific;
+    classLevel.class = req.body.class;
     classLevel.save(function (err) {
-      // TODO: Add input validation
-      classLevel.level = req.body.level;
-      classLevel.ownerClass = req.body.ownerClass;
-      classLevel.abilityScoreBonuses = req.body.abilityScoreBonuses;
-      classLevel.profBonus = req.body.profBonus;
-      classLevel.featureChoices = req.body.featureChoices;
-      classLevel.features = req.body.features;
-      classLevel.classSpecific = req.body.classSpecific;
-      classLevel.class = req.body.class;
       if (err) errorMessages.databaseError(res, err);
       res.json({
         status: "success",
         data: "Successfully added a new level to " + req.params.class,
       });
-    })
+    });
   });
 };
 

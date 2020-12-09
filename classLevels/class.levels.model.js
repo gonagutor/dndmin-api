@@ -19,11 +19,7 @@ const classLevelsSchema = mongoose.Schema({
       url: String,
     },
   ],
-  classSpecific: {
-    rageCount: Number,
-    rageDamageBonus: Number,
-    brutalCriticalDice: Number,
-  },
+  classSpecific: mongoose.Schema.Types.Mixed,
   class: {
     index: String,
     name: String,
