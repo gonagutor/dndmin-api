@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+// feature.model.js
+
+const mongoose = require('mongoose');
 
 const featuresSchema = mongoose.Schema({
   index: String,
@@ -13,8 +15,9 @@ const featuresSchema = mongoose.Schema({
   desc: [String],
 });
 
-var Features = (module.exports = mongoose.model("features", featuresSchema));
+module.exports = mongoose.model('features', featuresSchema);
+const Features = module.exports;
 
-module.exports.get = function (callback, limit) {
+module.exports.get = function get(callback, limit) {
   Features.find(callback).limit(limit);
 };

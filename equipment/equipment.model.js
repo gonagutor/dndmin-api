@@ -1,7 +1,6 @@
 // equipment.model.js
 
-const { string } = require("joi");
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const equipmentSchema = mongoose.Schema({
   index: String,
@@ -36,8 +35,8 @@ const equipmentSchema = mongoose.Schema({
     },
   ],
 });
-
-var Equipment = (module.exports = mongoose.model("equipment", equipmentSchema));
-module.exports.get = function (callback, limit) {
+module.exports = mongoose.model('equipment', equipmentSchema);
+const Equipment = module.exports;
+module.exports.get = function get(callback, limit) {
   Equipment.find(callback).limit(limit);
 };

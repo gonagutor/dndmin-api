@@ -1,8 +1,9 @@
 // character.model.js
 
-var mongoose = require("mongoose");
-const aIncrement = require("mongoose-sequence")(mongoose);
-var characterSchema = mongoose.Schema(
+const mongoose = require('mongoose');
+const aIncrement = require('mongoose-sequence')(mongoose);
+
+const characterSchema = mongoose.Schema(
   {
     _id: Number,
     name: String,
@@ -210,10 +211,11 @@ var characterSchema = mongoose.Schema(
       ],
     },
   },
-  { _id: false }
+  { _id: false },
 );
 characterSchema.plugin(aIncrement);
-var Character = (module.exports = mongoose.model("character", characterSchema));
-module.exports.get = function (callback, limit) {
+module.exports = mongoose.model('character', characterSchema);
+const Character = module.exports;
+module.exports.get = function get(callback, limit) {
   Character.find(callback).limit(limit);
 };

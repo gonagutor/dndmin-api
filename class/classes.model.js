@@ -1,13 +1,14 @@
 // class.model.js
 
-var mongoose = require("mongoose");
-var equipmentSchema = mongoose.Schema({
+const mongoose = require('mongoose');
+
+const equipmentSchema = mongoose.Schema({
   index: String,
   type: String,
   name: String,
   url: String,
 });
-var classesSchema = mongoose.Schema({
+const classesSchema = mongoose.Schema({
   index: String,
   class: String,
   description: String,
@@ -71,7 +72,8 @@ var classesSchema = mongoose.Schema({
   ],
 });
 
-var Classes = (module.exports = mongoose.model("classes", classesSchema));
-module.exports.get = function (callback, limit) {
+module.exports = mongoose.model('classes', classesSchema);
+const Classes = module.exports;
+module.exports.get = function get(callback, limit) {
   Classes.find(callback).limit(limit);
 };

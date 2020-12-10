@@ -1,68 +1,68 @@
 // equipment.controller.js
 
-const Equipment = require("./equipment.model");
-const errorMessages = require("../utilities/errorMessages");
-const { auth } = require("../auth/auth.controller");
+const Equipment = require('./equipment.model');
+const errorMessages = require('../utilities/errorMessages');
+const { auth } = require('../auth/auth.controller');
 const {
   newEquipmentValidation,
-} = require("../validation/new.equipment.validation");
-const { checkDuplicateByIndex } = require("../utilities/checkDuplicate");
+} = require('../validation/new.equipment.validation');
+const { checkDuplicateByIndex } = require('../utilities/checkDuplicate');
 
-exports.index = function (req, res) {
-  Equipment.get(function (err, equipment) {
+exports.index = function index(req, res) {
+  Equipment.get((err, equipment) => {
     if (err) return errorMessages.databaseError(res, err);
-    var eqlist = [];
-    for (var i = 0; i < equipment.length; i++) {
-      var obj = new Object();
+    const eqlist = [];
+    for (let i = 0; i < equipment.length; i += 1) {
+      const obj = {};
       obj.index = equipment[i].index;
       obj.name = equipment[i].name;
-      obj.url = "/equipment/" + equipment[i].index;
+      obj.url = `/equipment/${equipment[i].index}`;
       eqlist.push(obj);
     }
-    res.json({
-      status: "success",
+    return res.json({
+      status: 'success',
       data: eqlist,
     });
   });
 };
 
-exports.delete = function (req, res) {
-  auth(req, res, 3, function (req, res, user) {
+exports.delete = function deleteEquipment(reqToRet, resToRet) {
+  auth(reqToRet, resToRet, 3, (req, res) => {
     Equipment.findOneAndDelete(
       { index: req.params.index },
-      function (err, item) {
+      (err, item) => {
         if (err) return errorMessages.databaseError(res, err);
-        if (!item) return errorMessages.doesNotExist(res, "item");
-        res.json({
-          status: "success",
-          data: "Item deleted successfully",
+        if (!item) return errorMessages.doesNotExist(res, 'item');
+        return res.json({
+          status: 'success',
+          data: 'Item deleted successfully',
         });
-      }
+      },
     );
   });
 };
 
-exports.view = function (req, res) {
-  Equipment.findOne({ index: req.params.index }, function (err, item) {
+exports.view = function view(req, res) {
+  Equipment.findOne({ index: req.params.index }, (err, item) => {
     if (err) return errorMessages.databaseError(res, err);
-    if (!item) return errorMessages.doesNotExist(res, "item");
-    res.json({
-      status: "success",
+    if (!item) return errorMessages.doesNotExist(res, 'item');
+    return res.json({
+      status: 'success',
       data: item,
     });
   });
 };
 
-exports.new = function (req, res) {
-  auth(req, res, 3, function (req, res, user) {
-    if (newEquipmentValidation(req, res)) return;
+exports.new = function newClass(reqToPass, resToPass) {
+  auth(reqToPass, resToPass, 3, (reqToRet, resToRet) => {
+    if (newEquipmentValidation(reqToRet, resToRet)) return;
     checkDuplicateByIndex(
-      req,
-      res,
-      req.body.index,
+      reqToRet,
+      resToRet,
+      reqToRet.body.index,
       Equipment,
-      function (req, res) {
-        var equipment = new Equipment();
+      (req, res) => {
+        const equipment = new Equipment();
         equipment.index = req.body.index;
         equipment.name = req.body.name;
         equipment.category = req.body.category;
@@ -71,14 +71,14 @@ exports.new = function (req, res) {
         if (req.body.description) equipment.description = req.body.description;
         if (req.body.cost) equipment.cost = req.body.cost;
         if (req.body.contents) equipment.contents = req.body.contents;
-        equipment.save(function (err) {
+        equipment.save((err) => {
           if (err) return errorMessages.databaseError(res, err);
-          res.json({
-            status: "success",
-            data: "Successfully added new item",
+          return res.json({
+            status: 'success',
+            data: 'Successfully added new item',
           });
         });
-      }
+      },
     );
   });
 };

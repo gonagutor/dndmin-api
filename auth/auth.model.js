@@ -1,8 +1,8 @@
 // auth.model.js
 
-var mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-var userSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   username: String,
   characters: String,
   password: String,
@@ -11,8 +11,8 @@ var userSchema = mongoose.Schema({
   authorization: Number,
   verified: Boolean,
 });
-
-var User = (module.exports = mongoose.model("users", userSchema));
-module.exports.get = function (callback, limit) {
+module.exports = mongoose.model('users', userSchema);
+const User = module.exports;
+module.exports.get = function get(callback, limit) {
   User.find(callback).limit(limit);
 };

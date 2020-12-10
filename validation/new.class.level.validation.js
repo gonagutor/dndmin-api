@@ -1,4 +1,6 @@
-const Joi = require("joi");
+// new.class.level.validation.js
+
+const Joi = require('joi');
 
 /**
  * This function takes a req, and a res and validates the input json
@@ -9,9 +11,9 @@ const Joi = require("joi");
  * @param {*} res Express.js response variable
  */
 
-exports.newClassLevelValidation = function (req, res) {
+exports.newClassLevelValidation = function newClassLevelValidation(req, res) {
   const redirect = Joi.object().keys({
-    index: Joi.string().regex(RegExp("^([a-z0-9-])+$")).required(),
+    index: Joi.string().regex(RegExp('^([a-z0-9-])+$')).required(),
     name: Joi.string().required(),
     url: Joi.string(),
   });
@@ -25,10 +27,11 @@ exports.newClassLevelValidation = function (req, res) {
     class: redirect.required(),
   });
   const { error } = base.validate(req.body);
-  if (error)
+  if (error) {
     res.json({
-      status: "error",
+      status: 'error',
       data: error,
     });
+  }
   return error;
 };

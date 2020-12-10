@@ -1,16 +1,16 @@
 // new.equipment.validation.js
 
-const Joi = require("joi");
+const Joi = require('joi');
 
-exports.newEquipmentValidation = function (req, res) {
+exports.newEquipmentValidation = function newEquipmentValidation(req, res) {
   const category = Joi.object().keys({
-    index: Joi.string().regex(RegExp("^([a-z0-9-])+$")).required(),
+    index: Joi.string().regex(RegExp('^([a-z0-9-])+$')).required(),
     name: Joi.string().required(),
     url: Joi.string().required(),
   });
 
   const type = Joi.object().keys({
-    index: Joi.string().regex(RegExp("^([a-z0-9-])+$")).required(),
+    index: Joi.string().regex(RegExp('^([a-z0-9-])+$')).required(),
     name: Joi.string().required(),
     url: Joi.string().required(),
   });
@@ -29,21 +29,22 @@ exports.newEquipmentValidation = function (req, res) {
   });
 
   const base = Joi.object({
-    index: Joi.string().regex(RegExp("^([a-z0-9-])+$")).required(),
+    index: Joi.string().regex(RegExp('^([a-z0-9-])+$')).required(),
     name: Joi.string().required(),
     weight: Joi.number().min(0),
     description: Joi.string(),
     category: category.required(),
     type: type.required(),
-    cost: cost,
+    cost,
     contents: Joi.array().items(contentsItem),
   });
 
   const { error } = base.validate(req.body);
-  if (error)
+  if (error) {
     res.json({
-      status: "error",
+      status: 'error',
       data: error,
     });
+  }
   return error;
 };

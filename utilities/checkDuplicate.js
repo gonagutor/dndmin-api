@@ -1,6 +1,6 @@
 // checkDuplicate.js
 
-const errorMessages = require("./errorMessages");
+const errorMessages = require('./errorMessages');
 
 /**
  * Checks if index already exists in database and performs callback if it does
@@ -12,12 +12,11 @@ const errorMessages = require("./errorMessages");
  * @param {Function} callback What to do when the item is not duplicated
  */
 
-exports.checkDuplicateByIndex = function (req, res, key, object, callback) {
-  object.find({ index: key }, function (err, item) {
+exports.checkDuplicateByIndex = function checkDuplicateByIndex(req, res, key, object, callback) {
+  object.find({ index: key }, (err, item) => {
     if (err) return errorMessages.databaseError(res, err);
-    console.log(item.length);
-    if (item.length != 0 || !item) return errorMessages.duplicateKey(res, key);
-    callback(req, res);
+    if (item.length !== 0 || !item) return errorMessages.duplicateKey(res, key);
+    return callback(req, res);
   });
 };
 
@@ -31,10 +30,10 @@ exports.checkDuplicateByIndex = function (req, res, key, object, callback) {
  * @param {Function} callback What to do when the item is not duplicated
  */
 
-exports.checkDuplicateById = function (req, res, id, object, callback) {
-  object.find({ id: id }, function (err, item) {
+exports.checkDuplicateById = function checkDuplicateById(req, res, id, object, callback) {
+  object.find({ id }, (err, item) => {
     if (err) return errorMessages.databaseError(res, err);
-    if (item.length != 0 || !item) return errorMessages.duplicateKey(res, id);
-    callback(req, res);
+    if (item.length !== 0 || !item) return errorMessages.duplicateKey(res, id);
+    return callback(req, res);
   });
 };

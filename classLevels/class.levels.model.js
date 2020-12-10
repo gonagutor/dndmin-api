@@ -1,4 +1,6 @@
-const mongoose = require("mongoose");
+// class.levels.model.js
+
+const mongoose = require('mongoose');
 
 const classLevelsSchema = mongoose.Schema({
   level: Number,
@@ -27,11 +29,9 @@ const classLevelsSchema = mongoose.Schema({
   },
 });
 
-var ClassLevels = (module.exports = mongoose.model(
-  "classLevels",
-  classLevelsSchema
-));
+module.exports = mongoose.model('classLevels', classLevelsSchema);
+const ClassLevels = module.exports;
 
-module.exports.get = function (callback, limit) {
+module.exports = function get(callback, limit) {
   ClassLevels.find(callback).limit(limit);
 };

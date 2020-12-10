@@ -1,4 +1,6 @@
-const Joi = require("joi");
+// new.character.validation.js
+
+const Joi = require('joi');
 
 /**
  * This function takes a req, and a res and validates the input json
@@ -9,7 +11,7 @@ const Joi = require("joi");
  * @param {*} res Express.js response variable
  */
 
-exports.newCharacterValidation = function (req, res) {
+exports.newCharacterValidation = function newCharacterValidation(req, res) {
   const redirectSchema = Joi.object().keys({
     name: Joi.string().required(),
     url: Joi.string().required(),
@@ -39,7 +41,7 @@ exports.newCharacterValidation = function (req, res) {
           name: Joi.string().required(),
           level: Joi.number().required(),
           url: Joi.string().required(),
-        })
+        }),
       )
       .min(1)
       .required(),
@@ -147,7 +149,7 @@ exports.newCharacterValidation = function (req, res) {
           name: Joi.string().required(),
           amount: Joi.number().required(),
           url: Joi.string().required(),
-        })
+        }),
       )
       .required(),
   });
@@ -168,10 +170,11 @@ exports.newCharacterValidation = function (req, res) {
     inventory: inventorySchema.required(),
   });
   const { error } = base.validate(req.body);
-  if (error)
+  if (error) {
     res.json({
-      status: "error",
+      status: 'error',
       data: error,
     });
+  }
   return error;
 };
