@@ -25,6 +25,19 @@ exports.find = function find(req, res) {
   });
 };
 
+exports.delete = function deleteFeature(reqToPass, resToPass) {
+  auth(reqToPass, resToPass, 3, (req, res) => {
+    Features.find({ index: req.params.index }, (err, feature) => {
+      if (err) return errorMessage.databaseError(res, err);
+      if (!feature) return errorMessage.doesNotExist(res, 'feature');
+      return res.json({
+        status: 'success',
+        data: 'Feature deleted succesfully',
+      });
+    });
+  });
+};
+
 exports.new = function newFeature(reqToPass, resToPass) {
   auth(reqToPass, resToPass, 3, (req, res) => {
     const feature = new Features();

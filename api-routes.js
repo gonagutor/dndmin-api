@@ -6,6 +6,7 @@ const classesController = require('./class/classes.controller');
 const authController = require('./auth/auth.controller');
 const equipmentController = require('./equipment/equipment.controller');
 const classLevelsController = require('./classLevels/class.levels.controller');
+const featuresController = require('./features/features.controller');
 
 router.get('/', (req, res) => {
   res.send('DnDmin API REST API Landing Page');
@@ -54,6 +55,7 @@ router
   .get(classesController.find)
   .delete(classesController.delete);
 
+// Index all equipment if levels not specified
 router
   .route('/classes/:class/levels')
   .post(classLevelsController.new)
@@ -64,6 +66,7 @@ router
   .get(classLevelsController.viewLevel)
   .delete(classLevelsController.deleteLevel);
 
+// Index all equipment if index not specified
 router
   .route('/equipment/')
   .get(equipmentController.index)
@@ -73,4 +76,15 @@ router
   .route('/equipment/:index')
   .get(equipmentController.view)
   .delete(equipmentController.delete);
+
+// Index all features if index not specified
+router
+  .route('/features/')
+  .get(featuresController.index)
+  .post(featuresController.new);
+
+router
+  .route('/features/:index')
+  .get(featuresController.find)
+  .delete(featuresController.delete);
 module.exports = router;
