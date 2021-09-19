@@ -1,8 +1,8 @@
 // equipment.controller.js
 
-const Equipment = require('./equipment.model');
+const Equipment = require('../models/equipment.model');
 const errorMessages = require('../utilities/errorMessages');
-const { auth } = require('../auth/auth.controller');
+const { auth } = require('./auth.controller');
 const {
   newEquipmentValidation,
 } = require('../validation/new.equipment.validation');

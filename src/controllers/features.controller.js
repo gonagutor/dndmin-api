@@ -1,9 +1,9 @@
 // features.controller.js
 
-const Features = require('./features.model');
+const Features = require('../models/features.model');
 const errorMessage = require('../utilities/errorMessages');
 const { newFeaturesValidation } = require('../validation/new.features.validation');
-const { auth } = require('../auth/auth.controller');
+const { auth } = require('./auth.controller');
 
 exports.index = function index(req, res) {
   Features.get((err, features) => {

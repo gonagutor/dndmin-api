@@ -1,8 +1,8 @@
 // classes.controller.js
 
 const errorMessages = require('../utilities/errorMessages');
-const Classes = require('./classes.model');
-const { auth } = require('../auth/auth.controller');
+const Classes = require('../models/classes.model');
+const { auth } = require('./auth.controller');
 const { newClassValidation } = require('../validation/new.class.validation');
 const { checkDuplicateByIndex } = require('../utilities/checkDuplicate');
 

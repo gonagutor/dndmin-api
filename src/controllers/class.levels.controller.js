@@ -1,8 +1,8 @@
 // class.levels.controller.js
 
-const ClassLevels = require('./class.levels.model');
+const ClassLevels = require('../models/class.levels.model');
 const errorMessages = require('../utilities/errorMessages');
-const { auth } = require('../auth/auth.controller');
+const { auth } = require('./auth.controller');
 const {
   newClassLevelValidation,
 } = require('../validation/new.class.level.validation');

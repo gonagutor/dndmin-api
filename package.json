@@ -4,9 +4,10 @@
   "description": "This is the API of the DnDmin app. THis is an API for Dungeons and Dragons 5e.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir dist",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.js --exec babel-node",
     "deploy": "echo \"Running deploy script...\" && bash deploy.sh"
   },
   "repository": {
@@ -21,17 +22,31 @@
   "homepage": "https://github.com/gonagutor/dndmin-api#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "core-js": "^3.17.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.3.0",
+    "helmet": "^4.6.0",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.16",
-    "mongoose-sequence": "^5.3.0"
+    "mongoose": "^5.13.9",
+    "mongoose-sequence": "^5.3.0",
+    "morgan": "^1.10.0",
+    "oidc-provider": "^7.8.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6",
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/eslint-parser": "^7.15.7",
+    "@babel/node": "^7.15.4",
+    "@babel/preset-env": "^7.15.6",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/mongoose": "^5.11.97",
     "eslint": "^7.15.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.6"
   }
 }

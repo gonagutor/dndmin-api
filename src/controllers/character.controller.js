@@ -1,8 +1,8 @@
 // character.controller.js
 
-const Character = require('./character.model');
+const Character = require('../models/character.model');
 const errorMessages = require('../utilities/errorMessages');
-const { auth } = require('../auth/auth.controller');
+const { auth } = require('./auth.controller');
 const { newCharacterValidation } = require('../validation/new.character.validation');
 
 /* eslint no-underscore-dangle: 0 */
